@@ -1,0 +1,1270 @@
+.app-shell { min-height: 100vh; background: #07090b; }
+
+.topbar {
+  height: 62px;
+  display: grid;
+  grid-template-columns: 226px 1fr 190px;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  background: rgba(5, 8, 10, 0.96);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  backdrop-filter: blur(14px);
+}
+
+.brand-lockup { display: flex; align-items: center; gap: 11px; }
+.brand-lockup.compact { padding-left: 18px; }
+.brand-mark { width: 38px; height: 38px; display: grid; place-items: center; color: var(--cyan); border: 1px solid #2e6570; background: #0a1b20; }
+.brand-lockup div { display: flex; flex-direction: column; line-height: 1.1; }
+.brand-lockup span { font-size: 8px; letter-spacing: 2px; color: var(--muted); }
+.brand-lockup strong { font-size: 16px; letter-spacing: 3px; margin-top: 4px; }
+
+.game-nav { height: 100%; display: flex; justify-content: center; }
+.game-nav button {
+  min-width: 130px;
+  padding: 0 17px;
+  border: 0;
+  border-left: 1px solid var(--line-soft);
+  background: transparent;
+  color: #7f8c95;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font: 700 9px/1 ui-monospace, SFMono-Regular, monospace;
+  cursor: pointer;
+  position: relative;
+}
+.game-nav button:last-child { border-right: 1px solid var(--line-soft); }
+.game-nav button:hover { color: #d8e0e5; background: #0b1115; }
+.game-nav button.active { color: var(--cyan); background: #0b171b; }
+.game-nav button.active::after { content: ""; position: absolute; left: 14px; right: 14px; bottom: 0; height: 2px; background: var(--cyan); box-shadow: 0 0 12px var(--cyan); }
+
+.player-chip { height: 100%; display: flex; align-items: center; gap: 10px; padding: 0 18px; border-left: 1px solid var(--line); }
+.player-chip div { display: flex; flex-direction: column; gap: 3px; }
+.player-chip strong { font: 700 10px/1 ui-monospace, monospace; }
+.player-chip small { color: var(--muted); font: 600 8px/1 ui-monospace, monospace; }
+.faction-bar { width: 3px; height: 28px; background: var(--cyan); }
+.faction-bar.faction-nova { background: var(--red); }
+.faction-bar.faction-void { background: var(--amber); }
+
+.resource-strip {
+  height: 48px;
+  display: grid;
+  grid-template-columns: repeat(4, 145px) 1fr;
+  border-bottom: 1px solid var(--line);
+  background: #090d10;
+  position: relative;
+  z-index: 20;
+}
+.resource-strip > div { display: grid; grid-template-columns: 20px 1fr auto; align-items: center; gap: 7px; padding: 0 14px; border-right: 1px solid var(--line-soft); }
+.resource-strip svg { color: var(--amber); }
+.resource-strip span { font: 600 8px/1 ui-monospace, monospace; color: var(--muted); }
+.resource-strip strong { font: 700 11px/1 ui-monospace, monospace; }
+.resource-strip .live-world { justify-self: end; min-width: 245px; grid-template-columns: 8px auto auto 1fr; border-left: 1px solid var(--line); }
+.live-world i, .live-chip i { width: 6px; height: 6px; background: var(--green); box-shadow: 0 0 8px var(--green); border-radius: 50%; }
+
+.eyebrow { font: 700 9px/1 ui-monospace, monospace; letter-spacing: 1.8px; color: var(--cyan); }
+.surface { min-width: 0; background: #0d1216; border: 1px solid var(--line); }
+.section-heading { min-height: 60px; padding: 12px 15px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; }
+.section-heading > div > span { font: 700 8px/1 ui-monospace, monospace; letter-spacing: 1.4px; color: #60717c; }
+.section-heading h2 { margin: 6px 0 0; display: flex; align-items: center; gap: 8px; font-size: 14px; letter-spacing: 0; }
+.section-heading h2 svg { color: var(--cyan); }
+.section-heading > span { color: #77858e; font: 700 8px/1 ui-monospace, monospace; }
+.live-chip, .model-chip, .ai-chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid #2e464d; padding: 6px 8px; font: 700 8px/1 ui-monospace, monospace; color: #89979f; }
+.model-chip { color: var(--amber); border-color: #584721; }
+.ai-chip { color: #adf1ff; border-color: #265b66; }
+
+/* 3D theater */
+.theater-view {
+  height: calc(100vh - 110px);
+  min-height: 620px;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: #030608;
+  border-bottom: 1px solid #18313a;
+}
+.holographic-theater { position: absolute; inset: 0; }
+.holographic-theater canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+.scene-loading { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; color: var(--cyan); background: #030608; }
+.scene-loading svg { filter: drop-shadow(0 0 14px rgba(53, 215, 244, .7)); animation: bootPulse 1.4s infinite; }
+.scene-loading span { font: 700 8px/1 ui-monospace, monospace; letter-spacing: 2px; }
+.theater-view::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(3, 6, 8, .88), transparent 30%, transparent 72%, rgba(3, 6, 8, .78)),
+    linear-gradient(0deg, rgba(3, 6, 8, .9), transparent 25%, transparent 73%, rgba(3, 6, 8, .72));
+}
+.theater-view::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: .16;
+  background: repeating-linear-gradient(0deg, transparent 0, transparent 3px, rgba(94, 211, 232, .1) 4px);
+}
+.hud-corners { position: absolute; inset: 12px; z-index: 3; pointer-events: none; }
+.hud-corners i { position: absolute; width: 46px; height: 46px; border-color: rgba(71, 185, 205, .52); }
+.hud-corners i:nth-child(1) { left: 0; top: 0; border-left: 1px solid; border-top: 1px solid; }
+.hud-corners i:nth-child(2) { right: 0; top: 0; border-right: 1px solid; border-top: 1px solid; }
+.hud-corners i:nth-child(3) { left: 0; bottom: 0; border-left: 1px solid; border-bottom: 1px solid; }
+.hud-corners i:nth-child(4) { right: 0; bottom: 0; border-right: 1px solid; border-bottom: 1px solid; }
+.theater-title { position: absolute; z-index: 4; left: 27px; top: 26px; max-width: 420px; pointer-events: none; }
+.theater-title h1 { margin: 8px 0 10px; font-size: 32px; line-height: 1.15; letter-spacing: 0; text-transform: uppercase; }
+.commander-rank { display: flex; align-items: center; gap: 7px; color: #86969f; font: 700 8px/1 ui-monospace, monospace; letter-spacing: 1px; }
+.commander-rank svg { color: var(--amber); }
+.mission-stack {
+  position: absolute;
+  z-index: 4;
+  left: 24px;
+  top: 132px;
+  width: 278px;
+  background: rgba(4, 8, 11, .82);
+  border: 1px solid rgba(68, 101, 114, .55);
+  backdrop-filter: blur(12px);
+}
+.mission-stack > header, .battle-feed > header {
+  height: 35px;
+  padding: 0 11px;
+  display: grid;
+  grid-template-columns: 20px 1fr auto;
+  align-items: center;
+  border-bottom: 1px solid rgba(64, 90, 101, .5);
+  color: var(--cyan);
+}
+.mission-stack > header span, .battle-feed > header span { font: 800 8px/1 ui-monospace, monospace; letter-spacing: 1px; }
+.mission-stack > header strong { color: #d5e0e5; font: 800 9px/1 ui-monospace, monospace; }
+.objective {
+  min-height: 52px;
+  padding: 8px 10px;
+  display: grid;
+  grid-template-columns: 19px 1fr auto;
+  grid-template-rows: 1fr 3px;
+  align-items: center;
+  column-gap: 7px;
+  border-bottom: 1px solid rgba(38, 52, 59, .64);
+}
+.objective:last-child { border-bottom: 0; }
+.objective > svg { grid-row: 1; color: #61727c; }
+.objective > div { grid-row: 1; display: flex; flex-direction: column; gap: 5px; }
+.objective > div strong { font: 800 8px/1 ui-monospace, monospace; color: #bac5ca; }
+.objective > div span { color: #63727b; font: 7px/1 ui-monospace, monospace; }
+.objective > b { grid-row: 1; color: #82919a; font: 800 8px/1 ui-monospace, monospace; }
+.objective > i { grid-column: 2 / 4; grid-row: 2; height: 2px; background: #1d2b31; overflow: hidden; }
+.objective > i em { display: block; height: 100%; background: var(--cyan); box-shadow: 0 0 8px rgba(53, 215, 244, .6); }
+.objective.complete > svg, .objective.complete > b { color: var(--green); }
+.objective.complete > i em { background: var(--green); }
+.theater-stats { position: absolute; z-index: 4; top: 24px; right: 24px; display: flex; border: 1px solid rgba(80, 105, 117, .55); background: rgba(4, 8, 11, .82); backdrop-filter: blur(12px); }
+.theater-stats > div { min-width: 120px; padding: 12px 14px; border-left: 2px solid var(--cyan); display: flex; flex-direction: column; }
+.theater-stats > div:nth-child(2) { border-left-color: var(--amber); }
+.theater-stats > div:nth-child(3) { border-left-color: var(--red); }
+.theater-stats span, .sector-dock span { color: #71808a; font: 700 7px/1 ui-monospace, monospace; letter-spacing: 1px; }
+.theater-stats strong { margin: 6px 0 4px; font: 800 18px/1 ui-monospace, monospace; }
+.theater-stats small { color: #697780; font-size: 8px; }
+.faction-radar { position: absolute; z-index: 4; top: 137px; right: 24px; width: 222px; background: rgba(4, 8, 11, .8); border: 1px solid rgba(80, 105, 117, .48); backdrop-filter: blur(12px); }
+.faction-radar header { height: 31px; padding: 0 10px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(62, 78, 87, .55); }
+.faction-radar header span, .faction-radar header strong { color: #75858e; font: 800 7px/1 ui-monospace, monospace; letter-spacing: .8px; }
+.faction-radar > div { height: 31px; display: grid; grid-template-columns: 4px 43px 1fr 22px; align-items: center; gap: 8px; padding: 0 10px; border-bottom: 1px solid rgba(62, 78, 87, .45); font: 700 8px/1 ui-monospace, monospace; }
+.faction-radar > div:last-child { border-bottom: 0; }
+.faction-radar i { height: 17px; background: var(--cyan); }
+.faction-radar i.faction-nova { background: var(--red); }
+.faction-radar i.faction-void { background: var(--amber); }
+.faction-radar span { color: #89969f; }
+.faction-radar strong { color: white; }
+.faction-radar em { height: 3px; background: #1c292f; overflow: hidden; }
+.faction-radar em b { display: block; height: 100%; background: var(--cyan); }
+.faction-radar em b.faction-nova { background: var(--red); }
+.faction-radar em b.faction-void { background: var(--amber); }
+.battle-feed { position: absolute; z-index: 4; right: 24px; top: 272px; width: 250px; background: rgba(4, 8, 11, .78); border: 1px solid rgba(80, 105, 117, .45); backdrop-filter: blur(12px); }
+.battle-feed > header i { width: 6px; height: 6px; background: var(--green); border-radius: 50%; box-shadow: 0 0 8px var(--green); }
+.battle-feed > div { height: 27px; padding: 0 10px; display: grid; grid-template-columns: 38px 1fr auto; align-items: center; gap: 7px; border-bottom: 1px solid rgba(38, 52, 59, .65); font: 7px/1 ui-monospace, monospace; }
+.battle-feed > div:last-child { border-bottom: 0; }
+.battle-feed b { color: #52646e; }
+.battle-feed span { color: #a4b1b7; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.battle-feed em { color: #63747d; font-style: normal; }
+.agent-signal { position: absolute; z-index: 4; right: 24px; bottom: 116px; width: 270px; min-height: 116px; padding: 13px; background: rgba(4, 8, 11, .82); border: 1px solid rgba(80, 105, 117, .5); backdrop-filter: blur(12px); }
+.signal-title { display: grid; grid-template-columns: 20px 1fr 7px; align-items: center; color: var(--cyan); }
+.signal-title span { font: 700 8px/1 ui-monospace, monospace; letter-spacing: 1px; }
+.signal-title i { width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+.agent-signal > strong { display: block; margin-top: 13px; font: 700 10px/1.2 ui-monospace, monospace; }
+.agent-signal p { margin: 7px 0; color: #a3afb6; font-size: 10px; line-height: 1.4; }
+.agent-signal small { color: #65747e; font-size: 8px; line-height: 1.45; }
+.sector-dock {
+  position: absolute;
+  z-index: 5;
+  left: 20px;
+  right: 20px;
+  bottom: 18px;
+  min-height: 78px;
+  display: grid;
+  grid-template-columns: 175px repeat(4, minmax(105px, 1fr)) 165px 135px;
+  background: rgba(4, 8, 11, .94);
+  border: 1px solid rgba(83, 122, 137, .72);
+  box-shadow: 0 0 32px rgba(0, 0, 0, .38), inset 0 1px rgba(53, 215, 244, .08);
+  backdrop-filter: blur(14px);
+}
+.sector-dock > div { display: flex; flex-direction: column; justify-content: center; gap: 7px; padding: 0 14px; border-right: 1px solid #263039; }
+.sector-dock strong { font: 700 11px/1 ui-monospace, monospace; }
+.sector-dock small { color: #4f606a; font: 700 7px/1 ui-monospace, monospace; }
+.sector-dock .unit-status { flex-direction: row; align-items: center; justify-content: flex-start; gap: 10px; border-left: 2px solid var(--cyan); }
+.unit-status > div { display: flex; flex-direction: column; gap: 5px; }
+.unit-avatar { width: 36px; height: 36px; display: grid; place-items: center; color: var(--cyan); border: 1px solid #28616d; background: #0b2228; clip-path: polygon(25% 0, 75% 0, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0 75%, 0 25%); }
+.unit-avatar.faction-nova { color: var(--red); border-color: #73323a; background: #291419; }
+.unit-avatar.faction-void { color: var(--amber); border-color: #6b5226; background: #2a2111; }
+.target-status strong { color: #a6b4ba; }
+.target-status.status-hostile strong { color: #ff7881; }
+.target-status.status-unclaimed strong { color: var(--amber); }
+.target-status.status-friendly strong { color: var(--green); }
+.sector-dock button {
+  border: 0;
+  border-left: 1px solid #29434b;
+  background: #0d2d35;
+  color: var(--cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  cursor: pointer;
+  font: 800 9px/1 ui-monospace, monospace;
+  position: relative;
+  overflow: hidden;
+}
+.sector-dock button::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--cyan);
+  box-shadow: 0 0 12px var(--cyan);
+}
+.sector-dock button.danger { color: #ff7f88; background: #2a1418; border-left-color: #5d2b31; }
+.sector-dock button.danger::before { background: var(--red); box-shadow: 0 0 12px var(--red); }
+.sector-dock button:hover:not(:disabled) { filter: brightness(1.2); }
+.sector-dock button:disabled { opacity: .34; cursor: not-allowed; }
+.theater-error { position: absolute; z-index: 7; left: 20px; bottom: 92px; max-width: 430px; padding: 10px 13px; background: rgba(54, 17, 22, .94); border: 1px solid #74313a; color: #ff9ca3; font: 8px/1.4 ui-monospace, monospace; }
+
+/* Exchange */
+.exchange-view, .council-view, .manual-view { min-height: calc(100vh - 110px); }
+.view-intro { padding: 35px clamp(22px, 4vw, 58px); border-bottom: 1px solid var(--line); background-image: linear-gradient(90deg, #080c0f 10%, rgba(8, 12, 15, .75), rgba(8, 12, 15, .2)), url('/assets/hyperion-command-core.png'); background-size: cover; background-position: center 48%; }
+.compact-intro { min-height: 160px; display: flex; align-items: flex-end; justify-content: space-between; }
+.view-intro h1, .council-intro h1, .manual-hero h1 { margin: 9px 0 8px; font-size: 32px; line-height: 1; letter-spacing: 0; }
+.view-intro p, .council-intro p, .manual-hero p { margin: 0; max-width: 600px; color: #8b98a0; font-size: 12px; line-height: 1.5; }
+.market-ticker { display: flex; background: rgba(5, 9, 12, .88); border: 1px solid #35434c; }
+.market-ticker div { min-width: 105px; padding: 12px; border-left: 2px solid var(--amber); display: flex; flex-direction: column; gap: 7px; }
+.market-ticker div:nth-child(2) { border-left-color: #8db6ff; }
+.market-ticker div:nth-child(3) { border-left-color: var(--green); }
+.market-ticker span { color: #6c7a84; font: 700 8px/1 ui-monospace, monospace; }
+.market-ticker strong { font: 800 18px/1 ui-monospace, monospace; }
+.exchange-layout { max-width: 1540px; margin: 0 auto; padding: 14px; display: grid; grid-template-columns: minmax(570px, 1.45fr) minmax(330px, .75fr); gap: 12px; }
+.market-panel, .benchmark-panel { min-height: 390px; }
+.tape-panel, .leaders-panel { min-height: 260px; }
+.asset-tabs { height: 40px; display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--line); }
+.asset-tabs button { border: 0; border-right: 1px solid var(--line-soft); background: #090d10; color: #697984; font: 700 9px/1 ui-monospace, monospace; cursor: pointer; }
+.asset-tabs button.active { background: #122126; color: var(--cyan); box-shadow: inset 0 -2px var(--cyan); }
+.order-ticket { min-height: 78px; display: grid; grid-template-columns: 140px 1fr 1fr 150px; border-bottom: 1px solid var(--line); }
+.side-control { display: grid; grid-template-columns: 1fr 1fr; }
+.side-control button { border: 0; border-right: 1px solid var(--line); background: #0a0e11; color: #687781; font: 800 9px/1 ui-monospace, monospace; cursor: pointer; }
+.side-control .buy.active { color: var(--green); background: #11251c; box-shadow: inset 0 -2px var(--green); }
+.side-control .sell.active { color: #ff7c85; background: #291316; box-shadow: inset 0 -2px var(--red); }
+.order-ticket label { padding: 0 14px; border-right: 1px solid var(--line); display: flex; flex-direction: column; justify-content: center; gap: 8px; }
+.order-ticket label span { color: #6d7a84; font: 700 8px/1 ui-monospace, monospace; }
+.order-ticket input { min-width: 0; width: 100%; border: 0; border-bottom: 1px solid #34434c; background: transparent; color: white; font: 800 16px/1 ui-monospace, monospace; padding: 4px 0; }
+.execute-order { border: 0; background: #183627; color: var(--green); font: 800 9px/1 ui-monospace, monospace; cursor: pointer; }
+.execute-order.sell { background: #35191c; color: #ff747e; }
+.table-head, .table-row { display: grid; grid-template-columns: 65px 1fr 1fr 1.4fr 30px; align-items: center; padding: 0 14px; font: 9px/1 ui-monospace, monospace; }
+.table-head { height: 31px; color: #566671; border-bottom: 1px solid var(--line-soft); font-size: 7px; }
+.table-row { height: 32px; border-bottom: 1px solid #171e23; color: #89969f; }
+.table-row strong { color: #e0e6e9; }
+.text-buy { color: var(--green); font-weight: 800; }
+.text-sell { color: var(--red); font-weight: 800; }
+.icon-button { width: 24px; height: 24px; display: grid; place-items: center; border: 0; background: transparent; color: #687780; cursor: pointer; }
+.empty-row { padding: 18px; color: #56656e; font: 9px/1.4 ui-monospace, monospace; }
+.race-bars { padding: 17px; border-bottom: 1px solid var(--line); }
+.race-row + .race-row { margin-top: 18px; }
+.race-label { display: grid; grid-template-columns: 24px 1fr auto; align-items: center; margin-bottom: 8px; }
+.race-label svg { color: var(--cyan); }
+.race-row:nth-child(2) .race-label svg { color: var(--amber); }
+.race-label span { font: 700 9px/1 ui-monospace, monospace; }
+.race-label strong { font: 800 14px/1 ui-monospace, monospace; }
+.bar-track { height: 7px; overflow: hidden; background: #1e272d; }
+.bar-track i { display: block; height: 100%; transition: width .4s; }
+.bar-spacetime { background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+.bar-shadow { background: var(--amber); }
+.race-row small { display: block; margin-top: 7px; color: #5f6e77; font: 8px/1 ui-monospace, monospace; }
+.trace-row { height: 29px; display: grid; grid-template-columns: 48px 1.2fr .7fr .7fr 6px; align-items: center; gap: 7px; padding: 0 13px; border-bottom: 1px solid #171e23; color: #667680; font: 7px/1 ui-monospace, monospace; }
+.trace-row strong { color: #aeb8be; font-size: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.trace-row i { width: 5px; height: 5px; background: var(--green); border-radius: 50%; }
+.trade-row, .leader-row { min-height: 39px; display: grid; align-items: center; gap: 8px; padding: 0 14px; border-bottom: 1px solid var(--line-soft); font: 9px/1 ui-monospace, monospace; }
+.trade-row { grid-template-columns: 22px 50px 45px 1fr; }
+.trade-row > span { color: var(--cyan); font-weight: 800; }
+.trade-row small { color: #74818a; }
+.trade-row i { color: #66747d; font-style: normal; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.leader-row { grid-template-columns: 28px 3px 1fr auto; }
+.leader-row > span { color: #53636d; }
+.leader-row i { height: 19px; background: var(--cyan); }
+.leader-row i.faction-nova { background: var(--red); }
+.leader-row i.faction-void { background: var(--amber); }
+.leader-row b { color: var(--amber); }
+
+/* AI Council */
+.council-intro { padding: 42px clamp(22px, 4vw, 58px) 34px; border-bottom: 1px solid var(--line); background: linear-gradient(90deg, #081014, #0d1115 60%, #111109); }
+.council-layout { max-width: 1540px; margin: 0 auto; padding: 14px; display: grid; grid-template-columns: minmax(430px, .72fr) minmax(620px, 1.28fr); gap: 12px; }
+.strategist-console form { display: grid; grid-template-columns: 1fr 190px; border-bottom: 1px solid var(--line); }
+.strategist-console textarea { min-height: 112px; resize: vertical; padding: 16px; border: 0; border-right: 1px solid var(--line); background: #080d10; color: white; line-height: 1.55; font-size: 12px; }
+.strategist-console form button { border: 0; background: #12313a; color: var(--cyan); font: 800 9px/1.4 ui-monospace, monospace; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; }
+.strategist-console form button:disabled { opacity: .4; }
+.counsel-history article { padding: 16px; border-bottom: 1px solid var(--line-soft); }
+.counsel-history article > div { display: flex; flex-direction: column; gap: 7px; }
+.counsel-history article > div span { color: var(--cyan); font: 700 7px/1 ui-monospace, monospace; }
+.counsel-history article > div strong { font-size: 14px; }
+.counsel-history article p { color: #94a0a8; font-size: 10px; line-height: 1.5; }
+.counsel-history article footer { min-height: auto; padding: 0; border: 0; display: flex; align-items: center; justify-content: space-between; }
+.counsel-history article footer span { color: #bb9d66; font: 700 7px/1.3 ui-monospace, monospace; }
+.counsel-history article footer button { border: 1px solid #2f5963; background: transparent; color: var(--cyan); padding: 7px 9px; font: 700 7px/1 ui-monospace, monospace; cursor: pointer; }
+.agent-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
+.agent-card { min-height: 174px; padding: 14px; border-right: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); position: relative; }
+.agent-card::before { content: ""; position: absolute; left: 0; top: 0; width: 2px; height: 100%; background: var(--cyan); }
+.agent-card.faction-nova::before { background: var(--red); }
+.agent-card.faction-void::before { background: var(--amber); }
+.agent-card header { display: flex; justify-content: space-between; font: 800 8px/1 ui-monospace, monospace; color: #829099; }
+.agent-card header strong { color: var(--green); }
+.agent-card h3 { margin: 16px 0 8px; font-size: 10px; letter-spacing: 0; }
+.agent-card p { margin: 0 0 8px; color: #a3aeb5; font-size: 9px; line-height: 1.35; }
+.agent-card small { color: #5f6e77; font-size: 8px; line-height: 1.4; display: block; }
+.agent-card button { position: absolute; left: 14px; bottom: 12px; border: 0; background: transparent; color: var(--cyan); display: flex; align-items: center; gap: 5px; padding: 0; font: 700 7px/1 ui-monospace, monospace; cursor: pointer; }
+
+/* Manual */
+.manual-hero { min-height: 270px; padding: 48px clamp(22px, 5vw, 72px); display: flex; align-items: center; justify-content: space-between; gap: 50px; background-image: linear-gradient(90deg, #070b0e 5%, rgba(7, 11, 14, .82) 52%, rgba(7, 11, 14, .3)), url('/assets/hyperion-command-core.png'); background-size: cover; background-position: center; border-bottom: 1px solid var(--line); }
+.manual-hero > div:first-child { max-width: 700px; }
+.manual-hero h1 { font-size: 40px; }
+.win-condition { width: 280px; padding: 20px; border-left: 3px solid var(--amber); background: rgba(5, 9, 12, .87); display: flex; flex-direction: column; align-items: flex-start; gap: 9px; }
+.win-condition svg { color: var(--amber); }
+.win-condition span { color: var(--amber); font: 800 8px/1 ui-monospace, monospace; letter-spacing: 1.3px; }
+.win-condition strong { font-size: 16px; line-height: 1.3; }
+.win-condition small { color: #7d8a93; line-height: 1.45; font-size: 9px; }
+.loop-band { display: grid; grid-template-columns: repeat(5, 1fr); border-bottom: 1px solid var(--line); background: #0b0f12; }
+.loop-band article { min-height: 178px; padding: 22px; border-right: 1px solid var(--line); position: relative; }
+.loop-band article:last-child { border-right: 0; }
+.loop-band article > span { color: #364751; font: 800 25px/1 ui-monospace, monospace; }
+.loop-band svg { display: block; margin: 20px 0 13px; color: var(--cyan); }
+.loop-band h2 { margin: 0 0 8px; font-size: 13px; }
+.loop-band p { margin: 0; color: #78868f; font-size: 9px; line-height: 1.45; }
+.manual-sections { max-width: 1320px; margin: 0 auto; }
+.manual-sections > article { padding: 48px 25px; border-bottom: 1px solid var(--line); }
+.chapter { color: var(--cyan); font: 800 8px/1 ui-monospace, monospace; letter-spacing: 1.6px; }
+.manual-sections h2 { margin: 9px 0 27px; font-size: 25px; letter-spacing: 0; }
+.control-list, .resource-rules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); }
+.control-list > div, .resource-rules > div { min-height: 145px; padding: 22px; background: #0c1115; }
+.control-list svg, .resource-rules svg { color: var(--cyan); }
+.control-list strong, .resource-rules strong { display: block; margin: 16px 0 8px; font: 800 10px/1 ui-monospace, monospace; }
+.control-list p, .resource-rules p { margin: 0; color: #7f8c95; font-size: 10px; line-height: 1.5; }
+.resource-rules .energy-rule svg { color: var(--amber); }
+.resource-rules .matter-rule svg { color: #8db6ff; }
+.resource-rules .data-rule svg { color: var(--green); }
+.architecture-flow { display: flex; align-items: center; justify-content: center; gap: 15px; padding: 28px; background: #0a0f12; border: 1px solid var(--line); }
+.architecture-flow > div { min-width: 145px; padding: 14px; display: flex; flex-direction: column; align-items: center; gap: 7px; border: 1px solid #2c3941; }
+.architecture-flow > div.highlight { border-color: #2c7280; background: #0d2228; }
+.architecture-flow span { font: 800 9px/1 ui-monospace, monospace; }
+.architecture-flow small { color: #687780; font-size: 8px; }
+.architecture-flow svg { color: #52636d; }
+.architecture-copy { max-width: 800px; margin: 18px auto 0; color: #84919a; text-align: center; font-size: 11px; line-height: 1.55; }
+
+.inline-error, .form-error { padding: 10px 13px; background: #301417; color: #ff929a; border-bottom: 1px solid #5b282e; font: 9px/1.4 ui-monospace, monospace; }
+.global-footer { min-height: 41px; padding: 0 18px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); color: #56646d; font: 7px/1 ui-monospace, monospace; }
+.global-footer span { display: flex; align-items: center; gap: 6px; }
+
+/* Join and system states */
+.join-shell { min-height: 100vh; display: grid; grid-template-columns: 1.35fr minmax(400px, .65fr); background: #06080a; }
+.join-visual { min-height: 100vh; position: relative; background-image: linear-gradient(90deg, transparent 64%, #06080a 100%), linear-gradient(0deg, rgba(5, 8, 10, .42), transparent), url('/assets/hyperion-command-core.png'); background-size: cover; background-position: center; }
+.join-world-label { position: absolute; left: 28px; bottom: 28px; padding: 13px 16px; border-left: 2px solid var(--cyan); background: rgba(5, 8, 10, .74); display: flex; flex-direction: column; gap: 6px; }
+.join-world-label span { color: var(--cyan); font: 700 8px/1 ui-monospace, monospace; }
+.join-world-label strong { font: 700 10px/1 ui-monospace, monospace; }
+.join-panel { padding: 42px clamp(30px, 5vw, 74px); display: flex; flex-direction: column; justify-content: center; border-left: 1px solid var(--line); }
+.join-copy { margin: 64px 0 34px; }
+.join-copy h1 { margin: 12px 0 14px; font-size: 36px; line-height: 1.06; letter-spacing: 0; }
+.join-copy p { max-width: 440px; margin: 0; color: #87949d; line-height: 1.55; font-size: 12px; }
+.field-label { margin: 0 0 8px; color: #687780; font: 700 8px/1 ui-monospace, monospace; letter-spacing: 1.4px; }
+.text-input { height: 48px; margin-bottom: 25px; padding: 0 14px; border: 1px solid #33414a; background: #0b1013; color: white; font: 700 15px/1 ui-monospace, monospace; }
+.faction-select { display: grid; grid-template-columns: repeat(3, 1fr); margin-bottom: 21px; }
+.faction-option { min-height: 84px; padding: 12px; border: 1px solid var(--line); border-right: 0; background: #0a0e11; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 6px; cursor: pointer; }
+.faction-option:last-child { border-right: 1px solid var(--line); }
+.faction-option strong { font: 800 10px/1 ui-monospace, monospace; }
+.faction-option small { color: #687780; font-size: 8px; text-align: left; }
+.faction-option.selected { background: #112329; border-color: var(--cyan); }
+.faction-option.faction-nova.selected { background: #281417; border-color: var(--red); }
+.faction-option.faction-void.selected { background: #261f11; border-color: var(--amber); }
+.faction-sigil { width: 17px; height: 4px; background: var(--cyan); }
+.faction-nova .faction-sigil { background: var(--red); }
+.faction-void .faction-sigil { background: var(--amber); }
+.primary-command { height: 50px; border: 0; background: var(--cyan); color: #041014; display: flex; align-items: center; justify-content: center; gap: 10px; font: 900 10px/1 ui-monospace, monospace; cursor: pointer; }
+.primary-command:disabled { opacity: .4; }
+.join-foot { margin-top: 14px; color: #56646d; display: flex; align-items: center; gap: 6px; font: 8px/1 ui-monospace, monospace; }
+.join-foot svg { color: var(--green); }
+.boot-state, .offline-state { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: radial-gradient(circle at center, #102026, #07090b 43%); }
+.boot-symbol { color: var(--cyan); filter: drop-shadow(0 0 18px rgba(53, 215, 244, .5)); animation: bootPulse 1.5s infinite ease-in-out; }
+.boot-state strong { margin-top: 18px; letter-spacing: 7px; }
+.boot-state span { margin-top: 8px; color: #687780; font: 8px/1 ui-monospace, monospace; letter-spacing: 2px; }
+.boot-state > i { width: 180px; height: 2px; margin-top: 20px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); animation: scan 1.2s infinite; }
+.offline-state { padding: 30px; }
+.offline-state svg { color: var(--red); }
+.offline-state h1 { margin: 13px 0 24px; font-size: 25px; }
+.offline-state code { padding: 12px 15px; border: 1px solid var(--line); background: #0d1115; color: var(--cyan); font: 11px/1.4 ui-monospace, monospace; }
+.offline-state p { color: #687780; font: 9px/1.5 ui-monospace, monospace; }
+
+@keyframes bootPulse { 50% { transform: scale(.92); opacity: .6; } }
+@keyframes scan { 0% { transform: scaleX(.1); opacity: .2; } 50% { transform: scaleX(1); opacity: 1; } 100% { transform: scaleX(.1); opacity: .2; } }
+
+@media (max-width: 1180px) {
+  .topbar { grid-template-columns: 205px 1fr 165px; }
+  .game-nav button { min-width: 108px; padding: 0 10px; }
+  .game-nav button svg { display: none; }
+  .exchange-layout, .council-layout { grid-template-columns: 1fr; }
+  .agent-grid { grid-template-columns: repeat(3, 1fr); }
+  .sector-dock { grid-template-columns: 155px repeat(4, minmax(85px, 1fr)) 145px 120px; }
+  .sector-dock > div { padding: 0 10px; }
+  .mission-stack { width: 248px; }
+}
+
+@media (max-width: 820px) {
+  .topbar { height: auto; min-height: 58px; grid-template-columns: 1fr auto; }
+  .brand-lockup.compact { padding-left: 12px; }
+  .game-nav { grid-column: 1 / -1; grid-row: 2; height: 44px; overflow-x: auto; justify-content: flex-start; border-top: 1px solid var(--line); }
+  .game-nav button { min-width: 96px; flex: 1; padding: 0 4px; font-size: 7px; }
+  .player-chip { grid-column: 2; grid-row: 1; min-width: 138px; }
+  .resource-strip { height: 52px; grid-template-columns: repeat(4, 1fr); }
+  .resource-strip > div { grid-template-columns: 16px 1fr; padding: 6px 8px; }
+  .resource-strip strong { grid-column: 2; }
+  .resource-strip .live-world { display: none; }
+  .theater-view { height: calc(100vh - 154px); min-height: 650px; }
+  .theater-title { left: 14px; top: 15px; }
+  .theater-title h1 { font-size: 24px; }
+  .commander-rank { display: none; }
+  .theater-stats { left: 14px; right: 14px; top: 77px; }
+  .theater-stats > div { min-width: 0; flex: 1; padding: 9px 10px; }
+  .theater-stats strong { font-size: 15px; }
+  .mission-stack, .faction-radar, .battle-feed { display: none; }
+  .agent-signal { left: 14px; right: 14px; bottom: 128px; width: auto; min-height: 94px; }
+  .agent-signal small { display: none; }
+  .sector-dock { left: 9px; right: 9px; bottom: 8px; grid-template-columns: repeat(4, 1fr); }
+  .sector-dock > div { min-height: 54px; padding: 0 8px; }
+  .sector-dock .unit-status { grid-column: span 2; }
+  .sector-dock > div:nth-child(3), .sector-dock > div:nth-child(5) { display: none; }
+  .sector-dock > div:nth-child(2), .sector-dock > div:nth-child(4) { min-width: 0; }
+  .unit-avatar { width: 31px; height: 31px; }
+  .sector-dock button { min-height: 46px; grid-column: span 2; border-top: 1px solid #29434b; }
+  .theater-error { left: 10px; right: 10px; bottom: 111px; }
+  .compact-intro, .manual-hero { align-items: flex-start; flex-direction: column; }
+  .market-ticker { align-self: stretch; }
+  .market-ticker div { flex: 1; min-width: 0; }
+  .exchange-layout, .council-layout { padding: 7px; }
+  .order-ticket { grid-template-columns: 105px 1fr 1fr; }
+  .execute-order { grid-column: 1 / -1; min-height: 43px; }
+  .strategist-console form { grid-template-columns: 1fr; }
+  .strategist-console textarea { border-right: 0; border-bottom: 1px solid var(--line); }
+  .strategist-console form button { min-height: 50px; }
+  .agent-grid { grid-template-columns: repeat(2, 1fr); }
+  .manual-hero { gap: 25px; }
+  .manual-hero h1 { font-size: 30px; }
+  .win-condition { width: 100%; }
+  .loop-band { grid-template-columns: 1fr; }
+  .loop-band article { min-height: 115px; display: grid; grid-template-columns: 42px 35px 90px 1fr; align-items: center; gap: 10px; padding: 15px; border-right: 0; border-bottom: 1px solid var(--line); }
+  .loop-band svg { margin: 0; }
+  .loop-band h2, .loop-band p { margin: 0; }
+  .control-list, .resource-rules { grid-template-columns: 1fr; }
+  .architecture-flow { flex-direction: column; }
+  .architecture-flow > div { width: 100%; }
+  .architecture-flow > svg { transform: rotate(90deg); }
+  .global-footer { align-items: flex-start; flex-direction: column; gap: 8px; padding: 13px; }
+  .join-shell { grid-template-columns: 1fr; }
+  .join-visual { min-height: 230px; }
+  .join-panel { padding: 28px 20px; border-left: 0; }
+  .join-copy { margin: 34px 0 27px; }
+  .join-copy h1 { font-size: 29px; }
+  .join-world-label { left: 14px; bottom: 14px; }
+}
+
+@media (max-width: 480px) {
+  .agent-grid { grid-template-columns: 1fr; }
+  .section-heading { padding: 10px; }
+  .table-head, .table-row { grid-template-columns: 50px .8fr .7fr 1.3fr 26px; padding: 0 9px; }
+  .council-intro { padding: 32px 18px 26px; }
+  .view-intro { padding: 28px 18px; }
+  .faction-option { padding: 8px; }
+}
+
+/* Castle campaign art direction */
+.app-shell {
+  --oak: #3f2d22;
+  --oak-deep: #281b16;
+  --parchment: #e4d2a8;
+  --parchment-deep: #c6ad78;
+  --brass: #c9a254;
+  --brass-bright: #e1c070;
+  --ink: #30281f;
+  --forest: #46644f;
+  --wax: #963e46;
+}
+
+.view-theater {
+  height: 100vh;
+  overflow: hidden;
+  background: #9db5ad;
+  color: #fff8e8;
+}
+
+.view-theater .topbar,
+.view-theater .resource-strip {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+  border: 1px solid rgba(225, 192, 112, .68);
+  border-radius: 5px;
+  box-shadow: 0 9px 22px rgba(35, 24, 18, .28), inset 0 1px rgba(255, 244, 211, .12);
+  backdrop-filter: blur(12px);
+}
+
+.view-theater .topbar {
+  top: 14px;
+  width: min(1320px, calc(100% - 28px));
+  height: 58px;
+  grid-template-columns: 215px 1fr 176px;
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(71, 49, 36, .92), rgba(43, 29, 23, .96)),
+    var(--oak);
+}
+
+.view-theater .brand-lockup.compact { padding-left: 14px; }
+.view-theater .brand-mark {
+  width: 34px;
+  height: 34px;
+  color: var(--brass-bright);
+  border-color: rgba(225, 192, 112, .66);
+  background: rgba(21, 15, 12, .38);
+  transform: rotate(45deg);
+}
+.view-theater .brand-mark svg { transform: rotate(-45deg); }
+.view-theater .brand-lockup span { color: #c8b68f; }
+.view-theater .brand-lockup strong {
+  color: #fff5dd;
+  font-family: Georgia, "Times New Roman", serif;
+  letter-spacing: 2px;
+}
+
+.view-theater .game-nav button {
+  min-width: 120px;
+  padding: 0 13px;
+  border-color: rgba(215, 185, 119, .19);
+  color: #c4b798;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+}
+.view-theater .game-nav button:hover {
+  color: #fff6df;
+  background: rgba(229, 204, 151, .08);
+}
+.view-theater .game-nav button.active {
+  color: #30271e;
+  background: linear-gradient(#ead9ad, #cbb57f);
+  text-shadow: 0 1px rgba(255, 255, 255, .45);
+}
+.view-theater .game-nav button.active::after {
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--brass-bright);
+  box-shadow: none;
+}
+.view-theater .player-chip { border-color: rgba(215, 185, 119, .22); }
+.view-theater .player-chip strong { color: #fff5dc; }
+.view-theater .player-chip small { color: #baa982; }
+
+.view-theater .resource-strip {
+  top: 82px;
+  width: min(920px, calc(100% - 44px));
+  height: 42px;
+  grid-template-columns: repeat(4, minmax(118px, 1fr)) minmax(210px, 1.35fr);
+  background: rgba(48, 34, 27, .91);
+  color: #fff5db;
+}
+.view-theater .resource-strip > div {
+  padding: 0 11px;
+  border-color: rgba(215, 185, 119, .19);
+}
+.view-theater .resource-strip svg { color: var(--brass-bright); }
+.view-theater .resource-strip span { color: #bfae88; }
+.view-theater .resource-strip strong { color: #fff5dd; }
+.view-theater .resource-strip .live-world {
+  min-width: 0;
+  border-color: rgba(215, 185, 119, .2);
+}
+.view-theater .live-world i {
+  background: #8fd19a;
+  box-shadow: 0 0 8px rgba(143, 209, 154, .74);
+}
+
+.view-theater .theater-view {
+  width: 100%;
+  height: 100vh;
+  min-height: 680px;
+  border: 0;
+  background: #9db5ad;
+}
+.view-theater .theater-view::before {
+  z-index: 1;
+  background:
+    linear-gradient(90deg, rgba(49, 37, 28, .31), transparent 24%, transparent 76%, rgba(49, 37, 28, .27)),
+    linear-gradient(0deg, rgba(38, 27, 21, .42), transparent 27%, transparent 78%, rgba(69, 54, 42, .15));
+}
+.view-theater .theater-view::after { display: none; }
+.view-theater .hud-corners { display: none; }
+.view-theater .global-footer { display: none; }
+.view-theater .scene-loading {
+  color: var(--parchment);
+  background: #798f83;
+}
+.view-theater .scene-loading svg { filter: drop-shadow(0 3px 4px rgba(36, 27, 21, .35)); }
+
+.view-theater .theater-title {
+  top: 144px;
+  left: 28px;
+  max-width: 440px;
+  color: #fff8e7;
+  filter: drop-shadow(0 2px 3px rgba(36, 25, 18, .65));
+}
+.view-theater .theater-title .eyebrow {
+  color: #f0cf7f;
+  font-size: 8px;
+}
+.view-theater .theater-title h1 {
+  margin: 7px 0 8px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 38px;
+  font-weight: 700;
+  text-transform: none;
+}
+.view-theater .commander-rank { color: #f0e4c8; }
+.view-theater .commander-rank svg { color: #f2c965; }
+
+.view-theater .mission-stack,
+.view-theater .faction-radar,
+.view-theater .agent-signal,
+.view-theater .theater-stats,
+.view-theater .sector-dock {
+  border-color: rgba(111, 79, 45, .66);
+  border-radius: 4px;
+  box-shadow: 0 8px 22px rgba(44, 29, 20, .25), inset 0 1px rgba(255, 246, 217, .18);
+  backdrop-filter: blur(9px);
+}
+
+.view-theater .mission-stack {
+  top: 242px;
+  left: 25px;
+  width: 265px;
+  color: var(--ink);
+  background: rgba(231, 215, 178, .93);
+}
+.view-theater .mission-stack > header {
+  color: #fff3d4;
+  border-color: rgba(224, 192, 121, .3);
+  background: rgba(60, 42, 31, .96);
+}
+.view-theater .mission-stack > header strong { color: #f0d693; }
+.view-theater .objective { border-color: rgba(93, 69, 42, .18); }
+.view-theater .objective > svg { color: #806d49; }
+.view-theater .objective > div strong { color: #3c3124; }
+.view-theater .objective > div span { color: #77694f; }
+.view-theater .objective > b { color: #625336; }
+.view-theater .objective > i { background: rgba(84, 65, 40, .2); }
+.view-theater .objective > i em {
+  background: var(--brass);
+  box-shadow: none;
+}
+.view-theater .objective.complete > svg,
+.view-theater .objective.complete > b { color: #3d7653; }
+.view-theater .objective.complete > i em { background: #5c8a66; }
+
+.view-theater .theater-stats {
+  top: 144px;
+  right: 24px;
+  overflow: hidden;
+  border-color: rgba(224, 191, 117, .55);
+  background: rgba(51, 36, 28, .91);
+}
+.view-theater .theater-stats > div {
+  min-width: 118px;
+  border-left-color: #79b6b8;
+}
+.view-theater .theater-stats > div:nth-child(2) { border-left-color: #d5ad57; }
+.view-theater .theater-stats > div:nth-child(3) { border-left-color: #b85b63; }
+.view-theater .theater-stats span { color: #c1ad83; }
+.view-theater .theater-stats strong { color: #fff2d4; }
+.view-theater .theater-stats small { color: #b5a789; }
+
+.view-theater .faction-radar {
+  top: 250px;
+  right: 24px;
+  color: #fff1d4;
+  background: rgba(49, 35, 27, .9);
+}
+.view-theater .faction-radar header,
+.view-theater .faction-radar > div { border-color: rgba(220, 187, 115, .19); }
+.view-theater .faction-radar header span,
+.view-theater .faction-radar header strong { color: #c3b188; }
+.view-theater .faction-radar span { color: #e6d9bd; }
+.view-theater .faction-radar strong { color: #fff6e4; }
+.view-theater .faction-radar em { background: rgba(255, 244, 211, .12); }
+
+.view-theater .agent-signal {
+  right: 24px;
+  bottom: 121px;
+  color: var(--ink);
+  background: rgba(231, 215, 178, .94);
+}
+.view-theater .signal-title { color: #694e2d; }
+.view-theater .signal-title i {
+  background: #5e966b;
+  box-shadow: none;
+}
+.view-theater .agent-signal p { color: #594a36; }
+.view-theater .agent-signal small { color: #7d6d52; }
+
+.view-theater .sector-dock {
+  left: 20px;
+  right: 20px;
+  bottom: 16px;
+  min-height: 82px;
+  overflow: hidden;
+  color: #fff2d7;
+  background: rgba(51, 36, 28, .94);
+  border-color: rgba(225, 192, 112, .7);
+}
+.view-theater .sector-dock > div { border-color: rgba(220, 188, 118, .18); }
+.view-theater .sector-dock span { color: #bba981; }
+.view-theater .sector-dock strong { color: #fff3d7; }
+.view-theater .sector-dock small { color: #a69472; }
+.view-theater .sector-dock .unit-status { border-left-color: var(--brass-bright); }
+.view-theater .unit-avatar {
+  color: #e8c66f;
+  border-color: #bc9349;
+  background: #4e3a27;
+}
+.view-theater .unit-avatar.faction-nova {
+  color: #e59a9f;
+  border-color: #b45b63;
+  background: #552a2e;
+}
+.view-theater .unit-avatar.faction-void {
+  color: #f1c75c;
+  border-color: #c09843;
+  background: #584520;
+}
+.view-theater .target-status.status-hostile strong { color: #ee8f95; }
+.view-theater .target-status.status-unclaimed strong { color: #e2bd68; }
+.view-theater .target-status.status-friendly strong { color: #9dcea5; }
+.view-theater .sector-dock button {
+  border-color: rgba(230, 207, 157, .22);
+  color: #f6edcf;
+  background: #46644f;
+  text-shadow: 0 1px rgba(0, 0, 0, .3);
+}
+.view-theater .sector-dock button::before {
+  background: #91b597;
+  box-shadow: none;
+}
+.view-theater .sector-dock button.danger {
+  color: #ffe4d8;
+  background: #823941;
+  border-color: rgba(255, 218, 186, .18);
+}
+.view-theater .sector-dock button.danger::before {
+  background: #cf7a78;
+  box-shadow: none;
+}
+.view-theater .theater-error {
+  color: #ffe1d5;
+  background: rgba(105, 40, 45, .95);
+  border-color: #c27672;
+}
+
+@media (max-width: 1180px) {
+  .view-theater .topbar { grid-template-columns: 190px 1fr 150px; }
+  .view-theater .game-nav button { min-width: 102px; }
+  .view-theater .mission-stack { width: 240px; }
+}
+
+@media (max-width: 820px) {
+  .view-theater { min-height: 720px; overflow: auto; }
+  .view-theater .topbar {
+    top: 8px;
+    width: calc(100% - 16px);
+    height: 96px;
+    min-height: 0;
+    grid-template-columns: 1fr 132px;
+  }
+  .view-theater .brand-lockup.compact { padding-left: 11px; }
+  .view-theater .game-nav {
+    height: 39px;
+    border-color: rgba(215, 185, 119, .2);
+    overflow-x: hidden;
+  }
+  .view-theater .game-nav button {
+    min-width: 0;
+    padding: 0 5px;
+    font-size: 6px;
+  }
+  .view-theater .player-chip { min-width: 132px; padding: 0 10px; }
+  .view-theater .resource-strip {
+    top: 112px;
+    width: calc(100% - 20px);
+    height: 44px;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .view-theater .resource-strip > div {
+    grid-template-columns: 15px 1fr;
+    gap: 4px;
+    padding: 5px 7px;
+  }
+  .view-theater .resource-strip span { font-size: 6px; }
+  .view-theater .resource-strip strong { grid-column: 2; font-size: 9px; }
+  .view-theater .resource-strip .live-world { display: none; }
+  .view-theater .theater-view {
+    height: 100vh;
+    min-height: 720px;
+  }
+  .view-theater .theater-title {
+    top: 150px;
+    left: 16px;
+  }
+  .view-theater .theater-title h1 { font-size: 29px; }
+  .view-theater .commander-rank { display: none; }
+  .view-theater .theater-stats {
+    top: 232px;
+    left: 13px;
+    right: 13px;
+  }
+  .view-theater .theater-stats > div { padding: 8px 9px; }
+  .view-theater .theater-stats strong { font-size: 14px; }
+  .view-theater .theater-stats small { font-size: 6px; }
+  .view-theater .mission-stack,
+  .view-theater .faction-radar { display: none; }
+  .view-theater .agent-signal {
+    left: 12px;
+    right: 12px;
+    bottom: 126px;
+    width: auto;
+  }
+  .view-theater .sector-dock {
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .view-theater .sector-dock > div { min-height: 52px; }
+  .view-theater .sector-dock button { min-height: 45px; }
+}
+
+@media (max-width: 430px) {
+  .view-theater .brand-lockup strong { font-size: 13px; }
+  .view-theater .brand-mark { width: 30px; height: 30px; }
+  .view-theater .player-chip { min-width: 116px; }
+  .view-theater .player-chip strong { font-size: 8px; }
+  .view-theater .game-nav button svg { display: none; }
+  .view-theater .theater-title h1 { font-size: 25px; }
+  .view-theater .theater-stats > div { min-width: 0; }
+}
+
+/* ============================================================
+   INDIE PIXEL-ART THEME LAYER
+   Re-skins the whole app: pixel fonts, flat fills, chunky hard
+   borders, hard offset shadows, and juicy stepped animations.
+   ============================================================ */
+
+/* 1. Type — pixel font everywhere, retro display font for headings */
+.app-shell, .app-shell *,
+.join-shell, .join-shell *,
+.boot-state, .boot-state *,
+.offline-state, .offline-state * {
+  font-family: var(--font-ui) !important;
+  letter-spacing: 0.5px;
+}
+.brand-lockup strong,
+.app-shell h1, .app-shell h2, .app-shell h3,
+.join-copy h1, .view-intro h1, .council-intro h1, .manual-hero h1,
+.theater-title h1, .boot-state strong, .offline-state h1 {
+  font-family: var(--font-display) !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+/* Press Start 2P is large per-glyph; rescale headings so they fit */
+.join-copy h1, .view-intro h1, .council-intro h1, .manual-hero h1 {
+  font-size: clamp(15px, 2.3vw, 23px) !important;
+  line-height: 1.55 !important;
+}
+.manual-hero h1 { font-size: clamp(16px, 2.6vw, 26px) !important; }
+.theater-title h1 { font-size: 22px !important; line-height: 1.5 !important; }
+.view-theater .theater-title h1 { font-size: 21px !important; }
+.section-heading h2 { font-size: 11px !important; line-height: 1.5; }
+.manual-sections h2 { font-size: 16px !important; line-height: 1.5; }
+.loop-band h2, .control-list strong, .resource-rules strong { font-size: 10px !important; }
+.agent-card h3 { font-size: 9px !important; line-height: 1.5; }
+.counsel-history article > div strong { font-size: 11px !important; line-height: 1.5; }
+.brand-lockup strong { font-size: 12px !important; letter-spacing: 1px !important; margin-top: 6px; }
+.boot-state strong { font-size: 15px !important; letter-spacing: 2px !important; }
+.offline-state h1 { font-size: 17px !important; line-height: 1.6; }
+.win-condition strong { font-family: var(--font-display) !important; font-size: 11px !important; line-height: 1.7; }
+
+/* Pixel fonts read best a touch larger; nudge the tiniest labels up */
+.eyebrow, .chapter, .field-label,
+.section-heading > div > span, .market-ticker span,
+.theater-stats span, .sector-dock span, .resource-strip span {
+  font-size: 8px !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* 2. Kill glassmorphism — pixel art is flat and hard-edged */
+.app-shell *, .join-shell *, .boot-state *, .offline-state * {
+  backdrop-filter: none !important;
+}
+.topbar, .resource-strip { background: var(--surface) !important; }
+
+/* 3. Chunky hard borders + hard offset shadows on every panel */
+.surface,
+.market-ticker, .market-ticker div,
+.architecture-flow, .architecture-flow > div,
+.win-condition, .live-chip, .model-chip, .ai-chip,
+.text-input, .faction-option, .offline-state code,
+.mission-stack, .theater-stats, .faction-radar,
+.battle-feed, .agent-signal, .sector-dock {
+  border-radius: 0 !important;
+  border-width: 2px !important;
+  border-style: solid !important;
+}
+.surface,
+.mission-stack, .theater-stats, .faction-radar, .battle-feed, .agent-signal,
+.sector-dock, .market-ticker, .win-condition {
+  box-shadow: var(--pixel-shadow) !important;
+}
+.view-theater .topbar, .view-theater .resource-strip {
+  border-width: 2px !important;
+  border-radius: 0 !important;
+  box-shadow: var(--pixel-shadow) !important;
+}
+
+/* 4. Buttons — chunky, with a satisfying stepped press */
+.app-shell button, .join-shell button, .offline-state button { border-radius: 0 !important; }
+.primary-command, .execute-order, .sector-dock button,
+.strategist-console form button, .counsel-history article footer button,
+.agent-card button, .side-control button, .asset-tabs button, .icon-button {
+  transition: transform 0.05s steps(1), box-shadow 0.05s steps(1), filter 0.1s steps(2);
+}
+.primary-command, .execute-order {
+  border: 2px solid rgba(8, 5, 16, 0.5) !important;
+  box-shadow: var(--pixel-shadow);
+}
+.primary-command:active:not(:disabled),
+.execute-order:active:not(:disabled),
+.sector-dock button:active:not(:disabled),
+.strategist-console form button:active:not(:disabled),
+.counsel-history article footer button:active,
+.agent-card button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 rgba(8, 5, 16, 0.5) !important;
+}
+.primary-command:hover:not(:disabled),
+.execute-order:hover:not(:disabled) { filter: brightness(1.12); }
+
+/* 5. Inputs / textareas — flat pixel fields */
+.text-input, .order-ticket input, .strategist-console textarea {
+  border-radius: 0 !important;
+}
+
+/* 6. Juicy stepped animations */
+@keyframes pixelPop {
+  0% { transform: translateY(7px) scale(0.985); opacity: 0; }
+  60% { transform: translateY(-2px) scale(1.005); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+@keyframes pixelBlink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0.2; } }
+@keyframes pixelFloat { 50% { transform: translateY(-4px); } }
+
+.surface, .agent-card, .win-condition, .market-ticker, .loop-band article {
+  animation: pixelPop 0.24s steps(5) both;
+}
+.live-world i, .live-chip i, .signal-title i, .battle-feed > header i, .ai-chip svg {
+  animation: pixelBlink 1.1s steps(1) infinite;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+.brand-mark { animation: pixelFloat 3s steps(8) infinite; }
+.boot-symbol { animation: pixelFloat 1.4s steps(8) infinite !important; }
+
+/* Stepped progress bars (no smooth easing, no neon glow) */
+.bar-track i, .objective > i em, .faction-radar em b {
+  box-shadow: none !important;
+  transition: width 0.3s steps(8) !important;
+}
+.bar-track, .objective > i, .faction-radar em { border-radius: 0 !important; }
+.game-nav button.active::after { box-shadow: none !important; }
+
+/* 7. Faction sigils / avatars as crisp pixel chips */
+.unit-avatar { clip-path: none !important; border-radius: 0 !important; border-width: 2px !important; }
+.faction-bar, .faction-sigil { border-radius: 0 !important; }
+
+/* 8. Subtle CRT scanline wash for the whole page */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.05) 0 1px, transparent 1px 3px);
+}
+
+/* ============================================================
+   COZY UNIFICATION LAYER
+   1) Makes the "game tab" (theater) share the SAME dark cozy
+      theme as every other tab (no more castle parchment).
+   2) Warms surfaces to dusk-purple and adds juicy orange buttons,
+      matching the cozy indie reference art.
+   ============================================================ */
+
+/* --- Cozy purple surfaces everywhere --- */
+.app-shell { background: transparent; }
+.surface { background: var(--surface); }
+.topbar, .resource-strip { background: var(--surface) !important; border-color: var(--line) !important; }
+.section-heading { border-color: var(--line); }
+.app-shell .surface, .app-shell .market-ticker, .app-shell .win-condition {
+  border-color: var(--line) !important;
+}
+
+/* --- Unify the game tab: drop the parchment/oak palette --- */
+.view-theater { background: var(--bg-deep) !important; color: var(--text) !important; }
+.view-theater .theater-view { background: var(--bg-deep) !important; }
+.view-theater .scene-loading { background: var(--bg-deep); color: var(--cyan); }
+
+.view-theater .topbar,
+.view-theater .resource-strip,
+.view-theater .theater-stats,
+.view-theater .faction-radar,
+.view-theater .sector-dock {
+  background: rgba(42, 31, 68, 0.94) !important;
+  border-color: var(--line) !important;
+  color: var(--text);
+}
+/* Parchment panels → cozy dark cards */
+.view-theater .mission-stack,
+.view-theater .agent-signal {
+  background: rgba(42, 31, 68, 0.94) !important;
+  border-color: var(--line) !important;
+  color: var(--text) !important;
+}
+.view-theater .mission-stack > header {
+  background: rgba(24, 16, 38, 0.96) !important;
+  border-color: var(--line-soft) !important;
+  color: var(--cyan) !important;
+}
+.view-theater .mission-stack > header strong { color: var(--text) !important; }
+.view-theater .objective > div strong { color: #e7dffa !important; }
+.view-theater .objective > div span,
+.view-theater .objective > b,
+.view-theater .objective > svg { color: var(--muted) !important; }
+.view-theater .objective { border-color: var(--line-soft) !important; }
+.view-theater .objective > i { background: var(--line-soft) !important; }
+.view-theater .objective > i em { background: var(--cyan) !important; }
+.view-theater .objective.complete > svg,
+.view-theater .objective.complete > b { color: var(--green) !important; }
+.view-theater .objective.complete > i em { background: var(--green) !important; }
+
+.view-theater .signal-title { color: var(--cyan) !important; }
+.view-theater .agent-signal p { color: #d6cdec !important; }
+.view-theater .agent-signal small { color: var(--muted) !important; }
+
+/* Brand + title back to the pixel theme (no serif, no brass) */
+.view-theater .brand-lockup strong { color: var(--text) !important; }
+.view-theater .brand-lockup span { color: var(--muted) !important; }
+.view-theater .brand-mark { color: var(--cyan) !important; border-color: var(--line) !important; background: rgba(24, 16, 38, 0.6) !important; }
+.view-theater .theater-title { color: var(--text) !important; filter: none !important; }
+.view-theater .theater-title h1 { color: var(--text) !important; }
+.view-theater .theater-title .eyebrow { color: var(--cyan) !important; }
+.view-theater .commander-rank { color: var(--muted) !important; }
+.view-theater .commander-rank svg { color: var(--amber) !important; }
+
+/* Theater stat/radar/dock text + accents to cozy */
+.view-theater .resource-strip span,
+.view-theater .theater-stats span,
+.view-theater .sector-dock span,
+.view-theater .faction-radar header span,
+.view-theater .faction-radar header strong { color: var(--muted) !important; }
+.view-theater .resource-strip strong,
+.view-theater .theater-stats strong,
+.view-theater .sector-dock strong,
+.view-theater .faction-radar strong { color: var(--text) !important; }
+.view-theater .resource-strip svg { color: var(--amber) !important; }
+.view-theater .theater-stats > div { border-left-color: var(--cyan) !important; }
+.view-theater .theater-stats > div:nth-child(2) { border-left-color: var(--amber) !important; }
+.view-theater .theater-stats > div:nth-child(3) { border-left-color: var(--red) !important; }
+.view-theater .sector-dock > div { border-color: var(--line-soft) !important; }
+.view-theater .sector-dock .unit-status { border-left-color: var(--cyan) !important; }
+.view-theater .unit-avatar { color: var(--cyan) !important; border-color: var(--line) !important; background: rgba(24, 16, 38, 0.6) !important; }
+.view-theater .unit-avatar.faction-nova { color: var(--red) !important; }
+.view-theater .unit-avatar.faction-void { color: var(--amber) !important; }
+
+/* Nav: same cozy active style on the game tab as everywhere else */
+.view-theater .game-nav button { color: var(--muted) !important; border-color: var(--line-soft) !important; }
+.view-theater .game-nav button:hover { color: var(--text) !important; background: rgba(84, 220, 237, 0.07) !important; text-shadow: none !important; }
+.view-theater .game-nav button.active {
+  color: var(--cyan) !important;
+  background: rgba(84, 220, 237, 0.1) !important;
+  text-shadow: none !important;
+}
+.view-theater .game-nav button.active::after { background: var(--cyan) !important; }
+
+/* --- Juicy rounded buttons (the cozy reference vibe) --- */
+.primary-command, .strategist-console form button, .sector-dock button, .execute-order {
+  background: var(--orange) !important;
+  color: #2c1303 !important;
+  border: 2px solid rgba(255, 248, 235, 0.55) !important;
+  border-radius: 11px !important;
+  text-shadow: none !important;
+  box-shadow: 0 5px 0 var(--orange-shadow), 0 8px 12px rgba(0, 0, 0, 0.4) !important;
+  transition: transform 0.07s steps(1), box-shadow 0.07s steps(1), filter 0.1s !important;
+}
+.primary-command::before, .sector-dock button::before { display: none !important; }
+.primary-command:hover:not(:disabled),
+.strategist-console form button:hover:not(:disabled),
+.sector-dock button:hover:not(:disabled),
+.execute-order:hover:not(:disabled) { filter: brightness(1.08); }
+.primary-command:active:not(:disabled),
+.strategist-console form button:active:not(:disabled),
+.sector-dock button:active:not(:disabled),
+.execute-order:active:not(:disabled) {
+  transform: translateY(4px) !important;
+  box-shadow: 0 1px 0 var(--orange-shadow), 0 2px 5px rgba(0, 0, 0, 0.4) !important;
+}
+.primary-command:disabled, .sector-dock button:disabled, .strategist-console form button:disabled {
+  filter: grayscale(0.5); opacity: 0.5;
+}
+/* Buy/Sell keep their semantic color but stay juicy */
+.execute-order { background: var(--green) !important; color: #0c2412 !important; box-shadow: 0 5px 0 #2f7a3f, 0 8px 12px rgba(0,0,0,.4) !important; }
+.execute-order.sell { background: var(--red) !important; color: #2a0c12 !important; box-shadow: 0 5px 0 #93303f, 0 8px 12px rgba(0,0,0,.4) !important; }
+.execute-order:active:not(:disabled) { box-shadow: 0 1px 0 #2f7a3f, 0 2px 5px rgba(0,0,0,.4) !important; }
+.execute-order.sell:active:not(:disabled) { box-shadow: 0 1px 0 #93303f, 0 2px 5px rgba(0,0,0,.4) !important; }
+/* Inset the dock buttons a little so the rounded corners read */
+.sector-dock button { margin: 9px; }
+.view-theater .sector-dock button { background: var(--orange) !important; color: #2c1303 !important; border-color: rgba(255,248,235,.55) !important; }
+.view-theater .sector-dock button.danger { background: var(--red) !important; color: #2a0c12 !important; box-shadow: 0 5px 0 #93303f, 0 8px 12px rgba(0,0,0,.4) !important; }
+.sector-dock button.danger { background: var(--red) !important; color: #2a0c12 !important; box-shadow: 0 5px 0 #93303f, 0 8px 12px rgba(0,0,0,.4) !important; }
+.sector-dock button.danger::before { display: none !important; }
+
+/* ============================================================
+   READABILITY PASS
+   Keep the arcade font only for big hero titles + the brand.
+   Everything else uses the rounder, legible pixel font and is
+   nudged up a couple px with a bit more contrast + spacing.
+   ============================================================ */
+.app-shell h2, .app-shell h3,
+.section-heading h2, .manual-sections h2, .loop-band h2, .agent-card h3,
+.counsel-history article > div strong,
+.control-list strong, .resource-rules strong, .win-condition strong {
+  font-family: var(--font-ui) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.3px !important;
+}
+.section-heading h2 { font-size: 14px !important; }
+.manual-sections h2 { font-size: 21px !important; }
+.loop-band h2 { font-size: 14px !important; }
+.agent-card h3 { font-size: 12px !important; }
+.counsel-history article > div strong { font-size: 14px !important; }
+.control-list strong, .resource-rules strong { font-size: 12px !important; }
+.win-condition strong { font-size: 13px !important; line-height: 1.5 !important; }
+
+/* Lift the tiniest labels so they're actually readable */
+.eyebrow, .chapter, .field-label,
+.section-heading > div > span,
+.market-ticker span, .theater-stats span, .sector-dock span,
+.resource-strip span, .brand-lockup span,
+.objective > div span, .objective > b,
+.faction-radar header span, .faction-radar header strong {
+  font-size: 9px !important;
+  letter-spacing: 0.4px !important;
+}
+.game-nav button { font-size: 10px !important; letter-spacing: 0.4px !important; }
+.player-chip strong { font-size: 11px !important; }
+.player-chip small { font-size: 9px !important; }
+.resource-strip strong, .theater-stats strong { line-height: 1.1 !important; }
+.battle-feed > div, .trace-row, .trade-row, .leader-row,
+.table-head, .table-row, .objective > div strong,
+.agent-card p, .agent-card small, .agent-card header {
+  font-size: 9px !important;
+}
+.counsel-history article p, .agent-signal p { font-size: 10px !important; line-height: 1.55 !important; }
+.view-intro p, .council-intro p, .manual-hero p { font-size: 12px !important; line-height: 1.6 !important; }
+/* Brighter muted text for contrast on the dark dusk theme */
+.app-shell, .join-shell { --muted: #b6abd0; }
+.section-heading > div > span, .eyebrow { color: #8fe6f0 !important; }
+
+/* ============================================================
+   COZY ROUNDED PANELS  (no more hard squares for floating UI)
+   ============================================================ */
+.surface,
+.market-ticker, .win-condition,
+.faction-option, .agent-card, .architecture-flow, .architecture-flow > div,
+.text-input, .order-ticket input, .strategist-console textarea,
+.offline-state code, .inline-error, .form-error, .theater-error {
+  border-radius: 16px !important;
+}
+.mission-stack, .theater-stats, .faction-radar, .battle-feed, .agent-signal,
+.view-theater .topbar, .view-theater .resource-strip {
+  border-radius: 16px !important;
+  overflow: hidden;
+}
+.sector-dock { border-radius: 18px !important; overflow: hidden; }
+.live-chip, .model-chip, .ai-chip { border-radius: 999px !important; }
+.brand-mark, .unit-avatar { border-radius: 12px !important; }
+.bar-track, .bar-track i, .objective > i, .objective > i em, .faction-radar em, .faction-radar em b {
+  border-radius: 999px !important;
+}
+/* keep the inner heading divider flush with the rounded card top */
+.surface > .section-heading:first-child { border-radius: 16px 16px 0 0; }
+
+/* ============================================================
+   PIXEL-ART PANELS
+   The "floating space" (every card/panel, on every tab) gets a
+   chunky 8-bit silhouette: stepped/notched corners, a thick pixel
+   frame that follows those steps, and a hard blocky drop-shadow.
+   ============================================================ */
+.surface,
+.market-ticker, .win-condition, .agent-card, .faction-option,
+.architecture-flow, .loop-band article, .counsel-history article,
+.mission-stack, .theater-stats, .faction-radar, .battle-feed, .agent-signal,
+.sector-dock, .order-ticket, .leaderboard,
+.view-theater .topbar, .view-theater .resource-strip {
+  border-radius: 0 !important;
+  /* 8-bit stepped corners: a chunky 3-step staircase (4px steps) in each corner */
+  clip-path: polygon(
+    0 12px, 4px 12px, 4px 8px, 8px 8px, 8px 4px, 12px 4px, 12px 0,
+    calc(100% - 12px) 0, calc(100% - 12px) 4px, calc(100% - 8px) 4px, calc(100% - 8px) 8px, calc(100% - 4px) 8px, calc(100% - 4px) 12px, 100% 12px,
+    100% calc(100% - 12px), calc(100% - 4px) calc(100% - 12px), calc(100% - 4px) calc(100% - 8px), calc(100% - 8px) calc(100% - 8px), calc(100% - 8px) calc(100% - 4px), calc(100% - 12px) calc(100% - 4px), calc(100% - 12px) 100%,
+    12px 100%, 12px calc(100% - 4px), 8px calc(100% - 4px), 8px calc(100% - 8px), 4px calc(100% - 8px), 4px calc(100% - 12px), 0 calc(100% - 12px)
+  ) !important;
+  /* the pixel frame: it is clipped to the steps, so the border is notched too */
+  border: none !important;
+  box-shadow:
+    inset 0 0 0 3px var(--line),
+    inset 0 0 0 5px rgba(255, 255, 255, 0.05) !important;
+  /* hard, square 8-bit shadow that respects the stepped silhouette */
+  filter: drop-shadow(0 5px 0 rgba(0, 0, 0, 0.5));
+  overflow: visible;
+}
+/* the active-tab underline shouldn't be clipped away */
+.surface > .section-heading:first-child { border-radius: 0; }

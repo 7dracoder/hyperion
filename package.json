@@ -1,0 +1,16 @@
+{
+  "name": "project-hyperion",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Living benchmark arena powered by SpacetimeDB.",
+  "scripts": {
+    "install:all": "npm --prefix spacetimedb install && npm --prefix client install",
+    "build": "npm --prefix spacetimedb run build && npm --prefix client run build",
+    "dev:database": "spacetime start",
+    "dev:client": "npm --prefix client run dev -- --host 127.0.0.1",
+    "publish:local": "spacetime publish hyperion-popxo --server local --yes",
+    "publish:maincloud": "spacetime publish hyperion-popxo --server maincloud --yes",
+    "generate": "spacetime generate --lang typescript --out-dir client/src/module_bindings --module-path spacetimedb",
+    "build:client": "npm --prefix client run build"
+  }
+}

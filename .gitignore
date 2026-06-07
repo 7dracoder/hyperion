@@ -1,0 +1,18 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+spacetimedb/build/
+spacetimedb/target/
+
+# env / secrets
+.env
+.env.*
+
+# local-only spacetime config
+*.local.json
+
+# misc
+*.log
+.DS_Store

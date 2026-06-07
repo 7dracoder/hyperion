@@ -1,0 +1,62 @@
+:root {
+  /* Indie pixel-art type system */
+  --font-display: "Press Start 2P", ui-monospace, monospace;
+  --font-ui: "Pixelify Sans", ui-monospace, monospace;
+
+  font-family: var(--font-ui);
+  color: #f3ecd9;
+  background: #15101f;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  /* Smoothing back ON so the pixel font stays crisp but readable */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Cozy indie night palette (Nymble-inspired): deep purple dusk + warm amber */
+  --bg: #181026;
+  --bg-deep: #110b1c;
+  --surface: #2a1f44;
+  --surface-raised: #352a57;
+  --line: #4a3a70;
+  --line-soft: #2c2247;
+  --muted: #ab9fcb;
+  --text: #f6eeda;
+  --cyan: #54dced;
+  --cyan-dim: #173a45;
+  --red: #ff6378;
+  --amber: #ffc24b;
+  --green: #82e070;
+  /* Warm orange used for primary "juicy" call-to-action buttons */
+  --orange: #ff9d3c;
+  --orange-bright: #ffb454;
+  --orange-shadow: #b8531a;
+  /* Hard pixel edges + juicy button shadow */
+  --pixel-shadow: 4px 4px 0 rgba(8, 5, 16, 0.55);
+  --pixel-shadow-sm: 3px 3px 0 rgba(8, 5, 16, 0.5);
+}
+
+* { box-sizing: border-box; }
+
+html { background: var(--bg-deep); }
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    /* faint vertical light beams, like sun through trees */
+    linear-gradient(90deg, transparent 0 18%, rgba(84, 220, 237, 0.05) 19% 20%, transparent 21% 46%, rgba(84, 220, 237, 0.04) 47% 48%, transparent 49% 74%, rgba(255, 196, 75, 0.04) 75% 76%, transparent 77%),
+    /* cozy repeating pixel-dot pattern */
+    radial-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    /* soft vertical dusk gradient */
+    linear-gradient(180deg, #1d1430, var(--bg-deep));
+  background-size: 100% 100%, 16px 16px, 100% 100%;
+  background-attachment: fixed;
+}
+
+img, canvas { image-rendering: pixelated; }
+
+button, input, textarea { font: inherit; font-family: var(--font-ui); }
+button { color: inherit; }
+button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid var(--cyan); outline-offset: 2px; }
+
+#root { min-height: 100vh; }
